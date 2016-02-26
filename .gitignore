@@ -1,7 +1,7 @@
 
 # Created by https://www.gitignore.io/api/rails,ruby,node,osx,linux,windows
 
-/data/
+/data
 
 ### Rails ###
 *.rbc
