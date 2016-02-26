@@ -1,4 +1,5 @@
 require 'csv'
+require 'pry'
 catalog = '../data/catalog.csv'
 catalog2 = '../data/catalog2.csv'
 
@@ -15,5 +16,3 @@ def random_lines(input_file, output_file, num)
 
   random_rows.each { |row| new_csv << row }
 end
-
-random_lines(catalog, catalog2, 10)
