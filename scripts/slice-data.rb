@@ -1,3 +1,5 @@
+# to slice data file down to manageable size
+
 require 'csv'
 require 'pry'
 catalog = '../data/catalog.csv'
