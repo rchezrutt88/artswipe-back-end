@@ -8,7 +8,10 @@ Rails.application.routes.draw do
 
   # grabs random art
   get 'arts/random' => 'arts#random'
-  resources :arts, except: [:new, :edit]
+
+  resources :arts, except: [:new, :edit] do
+    resources :votes, except: [:new, :edit]
+  end
 
 
 end
