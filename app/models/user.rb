@@ -5,3 +5,7 @@ class User < ActiveRecord::Base
   has_many :votes
 
 end
+
+
+# TODO
+# votes destroyed when user destroyed
