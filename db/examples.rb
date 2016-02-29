@@ -23,7 +23,7 @@ art_path = 'data/arts.csv'
 user_path = 'data/users.csv'
 vote_path = 'data/votes.csv'
 
-def populate_art(path)
+def populate_arts(path)
   Art.transaction do
     CSV.foreach(Rails.root + path, headers: true, col_sep: ';', header_converters: :downcase) do |art_row|
       art = art_row.to_hash
@@ -54,7 +54,9 @@ def populate_votes(path)
 end
 
 
-populate_art(art_path)
+populate_arts(art_path)
+
+# populate_users(user_path)
 
 
 

@@ -27,6 +27,9 @@ class VotesController < ProtectedController
     @vote = current_user.votes.build(vote_params)
     @vote.art = @art
 
+    # # XXX
+    # @art.votes = @vote;
+
 
     if @vote.save
       render json: @vote, status: :created
