@@ -1,1 +1,1 @@
-curl --include --request GET http://localhost:3000/arts/random
+curl --include --request GET http://localhost:3000/arts

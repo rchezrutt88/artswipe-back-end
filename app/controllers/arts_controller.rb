@@ -47,6 +47,15 @@ class ArtsController < ApplicationController
     head :no_content
   end
 
+
+
+  def random
+    @art = Art.offset(rand(Art.count)).first
+
+    render json: @art
+  end
+
+
   private
 
     def set_art
