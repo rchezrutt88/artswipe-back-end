@@ -44,11 +44,11 @@ ActiveRecord::Schema.define(version: 20160226221558) do
   add_index "users", ["token"], name: "index_users_on_token", unique: true, using: :btree
 
   create_table "votes", force: :cascade do |t|
-    t.boolean  "likeDislike"
+    t.boolean  "liked"
     t.integer  "art_id"
     t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "votes", ["art_id"], name: "index_votes_on_art_id", using: :btree
