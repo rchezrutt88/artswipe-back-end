@@ -18,6 +18,7 @@
 # end
 
 require 'csv'
+require 'pry'
 
 art_path = 'data/arts.csv'
 user_path = 'data/users.csv'
@@ -27,8 +28,7 @@ def populate_arts(path)
   Art.transaction do
     CSV.foreach(Rails.root + path, headers: true, col_sep: ';', header_converters: :downcase) do |art_row|
       art = art_row.to_hash
-      next if Art.exists? art
-      Art.create!(art)
+      Art.find_or_create_by!(art)
     end
   end
 end
@@ -37,8 +37,7 @@ def populate_users(path)
   User.transaction do
     CSV.foreach(Rails.root + path, headers: true) do |user_row|
       user = user_row.to_hash
-      next if User.exists? user
-      User.create!(user)
+      User.find_or_create_by!(user)
     end
   end
 end
@@ -56,7 +55,7 @@ end
 
 populate_arts(art_path)
 
-# populate_users(user_path)
+populate_users(user_path)
 
 
 
