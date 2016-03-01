@@ -1,3 +1,3 @@
 class VoteSerializer < ActiveModel::Serializer
-  attributes :id, :art, :user, :liked
+  attributes :id, :created_at, :user, :art, :liked
 end
