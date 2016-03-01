@@ -1,10 +1,14 @@
 class VotesController < ProtectedController
   before_action :set_vote, only: [:show, :update, :destroy]
-  before_action :set_art, only: [:create]
+  before_action :set_art, only: [:create, :index]
+
+
+
+  # TODO should not get all votes, but votes on given art
   # GET /votes
   # GET /votes.json
   def index
-    @votes = Vote.all
+    @votes = @art.votes.all
 
     render json: @votes
   end
