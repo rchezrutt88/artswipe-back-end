@@ -30,8 +30,6 @@ class ArtsController < ApplicationController
   # PATCH/PUT /arts/1
   # PATCH/PUT /arts/1.json
   def update
-    @art = Art.find(params[:id])
-
     if @art.update(art_params)
       head :no_content
     else
