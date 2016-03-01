@@ -17,16 +17,17 @@ class VotesController < ProtectedController
   #
   def show
 
+    # XXX Returns array of length one. Elegant way of searching for singular element?
     if params[:id] == 'user'
       @vote = @art.votes.where(user_id: current_user.id)
     end
+
     render json: @vote
   end
 
   # POST /votes
   # POST /votes.json
 
-  # FIXME
   def create
     # @vote = @art.votes.build(vote_params)
     # # Why does this not need to be a reference to current_user.id
@@ -35,8 +36,6 @@ class VotesController < ProtectedController
     @vote = current_user.votes.build(vote_params)
     @vote.art = @art
 
-    # # XXX
-    # @art.votes = @vote;
 
     if @vote.save
       render json: @vote, status: :created
