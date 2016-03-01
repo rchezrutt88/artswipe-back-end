@@ -7,11 +7,12 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show]
 
   # grabs random art
-  get 'arts/random' => 'arts#random'
+  get 'arts/random', to: 'arts#random'
 
   resources :arts, except: [:new, :edit] do
-    resources :votes, except: [:new, :edit]
+    resources :votes, only: [:index, :create, :show]
   end
+  resources :votes, except: [:index, :new, :edit]
 
 
 end

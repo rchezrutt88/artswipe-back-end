@@ -37,7 +37,10 @@ def populate_users(path)
   User.transaction do
     CSV.foreach(Rails.root + path, headers: true) do |user_row|
       user = user_row.to_hash
-      User.find_or_create_by!(user)
+      # binding.pry
+      search_user = user.reject { |k, _v| k == 'password' }
+      next if User.exists? search_user
+      User.create!(user)
     end
   end
 end
@@ -52,13 +55,9 @@ def populate_votes(path)
   end
 end
 
-
 populate_arts(art_path)
 
 populate_users(user_path)
-
-
-
 
 # namespace :db do
 #   namespace :populate do

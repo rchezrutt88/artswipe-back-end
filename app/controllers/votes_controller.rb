@@ -1,21 +1,25 @@
 class VotesController < ProtectedController
-  before_action :set_vote, only: [:show, :update, :destroy]
-  before_action :set_art, only: [:create, :index]
+  before_action :set_vote, only: [:update, :destroy]
+  before_action :set_art, only: [:create, :index, :show]
 
-
-
-  # TODO should not get all votes, but votes on given art
+  # TODO: should not get all votes, but votes on given art
   # GET /votes
   # GET /votes.json
   def index
     @votes = @art.votes.all
+
 
     render json: @votes
   end
 
   # GET /votes/1
   # GET /votes/1.json
+  #
   def show
+
+    if params[:id] == 'user'
+      @vote = @art.votes.where(user_id: current_user.id)
+    end
     render json: @vote
   end
 
@@ -34,7 +38,6 @@ class VotesController < ProtectedController
     # # XXX
     # @art.votes = @vote;
 
-
     if @vote.save
       render json: @vote, status: :created
     else
@@ -42,12 +45,18 @@ class VotesController < ProtectedController
     end
   end
 
+  # # XXX
+  # # TODO make this more secure by removing user_id arg?
+  # def uservoteonart
+  #   @vote = @art.votes(user_id: current_user.id)
+  #   render json: @vote
+  # end
+
   # PATCH/PUT /votes/1
   # PATCH/PUT /votes/1.json
   def update
-
     if @vote.update(vote_params)
-      head :no_content
+
     else
       render json: @vote.errors, status: :unprocessable_entity
     end
@@ -63,15 +72,15 @@ class VotesController < ProtectedController
 
   private
 
-    def set_vote
-      @vote = Vote.find(params[:id])
-    end
+  def set_vote
+    @vote = Vote.find(params[:id])
+  end
 
-    def set_art
-      @art = Art.find(params[:art_id])
-    end
+  def set_art
+    @art = Art.find(params[:art_id])
+  end
 
-    def vote_params
-      params.require(:vote).permit(:liked)
-    end
+  def vote_params
+    params.require(:vote).permit(:liked)
+  end
 end
