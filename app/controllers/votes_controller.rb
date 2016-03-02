@@ -1,6 +1,6 @@
 class VotesController < ProtectedController
   before_action :set_vote, only: [:update, :destroy]
-  before_action :set_art, only: [:create, :index, :show]
+  before_action :set_art, only: [:create, :index, :show, :update]
 
   # TODO: should not get all votes, but votes on given art
   # GET /votes
@@ -19,7 +19,7 @@ class VotesController < ProtectedController
 
     # XXX Returns array of length one. Elegant way of searching for singular element?
     if params[:id] == 'user'
-      @vote = @art.votes.where(user_id: current_user.id)
+      @vote = @art.votes.find_by(user_id: current_user.id)
     end
 
     render json: @vote
@@ -54,6 +54,11 @@ class VotesController < ProtectedController
   # PATCH/PUT /votes/1
   # PATCH/PUT /votes/1.json
   def update
+
+    if params[:id] == 'user'
+      @vote = @art.votes.find_by(user_id: current_user.id)
+    end
+
     if @vote.update(vote_params)
 
     else
@@ -64,6 +69,11 @@ class VotesController < ProtectedController
   # DELETE /votes/1
   # DELETE /votes/1.json
   def destroy
+
+    if params[:id] == 'user'
+      @vote = @art.votes.find_by(user_id: current_user.id)
+    end
+
     @vote.destroy
 
     head :no_content

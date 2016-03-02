@@ -1,4 +1,4 @@
-class ArtsController < ApplicationController
+class ArtsController < ProtectedController
   before_action :set_art, only: [:show, :update, :destroy]
 
   # GET /arts
@@ -12,7 +12,7 @@ class ArtsController < ApplicationController
   # GET /arts/1
   # GET /arts/1.json
   def show
-    render json: @art
+    render json: @art, serializer: ArtSerializer
   end
 
   # POST /arts
@@ -52,6 +52,7 @@ class ArtsController < ApplicationController
 
     render json: @art
   end
+
 
 
   private
