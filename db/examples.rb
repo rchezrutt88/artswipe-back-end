@@ -18,6 +18,7 @@
 # end
 
 require 'csv'
+require 'pry'
 
 art_path = 'data/arts.csv'
 user_path = 'data/users.csv'
@@ -27,8 +28,7 @@ def populate_arts(path)
   Art.transaction do
     CSV.foreach(Rails.root + path, headers: true, col_sep: ';', header_converters: :downcase) do |art_row|
       art = art_row.to_hash
-      next if Art.exists? art
-      Art.create!(art)
+      Art.find_or_create_by!(art)
     end
   end
 end
@@ -37,7 +37,9 @@ def populate_users(path)
   User.transaction do
     CSV.foreach(Rails.root + path, headers: true) do |user_row|
       user = user_row.to_hash
-      next if User.exists? user
+      # binding.pry
+      search_user = user.reject { |k, _v| k == 'password' }
+      next if User.exists? search_user
       User.create!(user)
     end
   end
@@ -53,53 +55,6 @@ def populate_votes(path)
   end
 end
 
-
 populate_arts(art_path)
 
-# populate_users(user_path)
-
-
-
-
-# namespace :db do
-#   namespace :populate do
-#     desc 'Fill the database with example data'
-#     task all: [:users, :arts, :votes]
-#
-#     desc 'Fill the people table with example data'
-#     task people: :environment do
-#       Person.transaction do
-#         CSV.foreach(Rails.root + 'data/people.csv',
-#                     headers: true) do |person_row|
-#           person = person_row.to_hash
-#           next if Person.exists? person
-#           Person.create!(person)
-#         end
-#       end
-#     end
-#
-#     desc 'Fill the cities table with example data'
-#     task cities: :environment do
-#       City.transaction do
-#         CSV.foreach(Rails.root + 'data/cities.csv',
-#                     headers: true) do |city_row|
-#           city = city_row.to_hash
-#           next if City.exists? city
-#           City.create!(city)
-#         end
-#       end
-#     end
-#
-#     desc 'Fill the pets table with example data'
-#     task pets: :environment do
-#       Pet.transaction do
-#         CSV.foreach(Rails.root + 'data/pets.csv',
-#                     headers: true) do |pet_row|
-#           pet = pet_row.to_hash
-#           next if Pet.exists? pet
-#           Pet.create!(pet)
-#         end
-#       end
-#     end
-#   end
-# end
+populate_users(user_path)
