@@ -21,16 +21,26 @@ class ArtsController < OpenReadController
   #create action
   def up_vote
     current_user.vote_for(@art)
+
+    set_vote
+
+    render json: @vote
   end
 
   #create action
   def down_vote
     current_user.vote_against(@art)
+
+    set_vote
+
+    render json: @vote
   end
 
   def toggle_vote #update
     toggled = !@vote.vote
     @vote.vote = toggled
+
+    render json: @vote
   end
 
   def clear_vote #delete
