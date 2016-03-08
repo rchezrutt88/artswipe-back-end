@@ -6,6 +6,9 @@ class ArtSerializer < ActiveModel::Serializer
   private
 
   def my_vote
+    if scope.nil?
+      return nil
+    end
     Vote.find_by(voteable_id: object.id, voter_id: scope.id)
   end
 
