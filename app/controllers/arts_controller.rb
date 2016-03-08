@@ -1,5 +1,6 @@
 class ArtsController < OpenReadController
-  before_action :set_art, only: [:show]
+  before_action :set_art, except: [:index, :random]
+  before_action :set_vote, only: [:toggle_vote]
 
   def index
     @arts = Art.all
@@ -17,16 +18,23 @@ class ArtsController < OpenReadController
     render json: @art
   end
 
-  def up_vote #create
+  #create action
+  def up_vote
+    current_user.vote_for(@art)
   end
 
-  def down_vote #create
+  #create action
+  def down_vote
+    current_user.vote_against(@art)
   end
 
   def toggle_vote #update
+    toggled = !@vote.vote
+    @vote.vote = toggled
   end
 
   def clear_vote #delete
+    current_user.unvote_for(@art)
   end
 
 
@@ -35,6 +43,11 @@ class ArtsController < OpenReadController
   def set_art
     @art = Art.find(params[:id])
   end
+
+  def set_vote
+    @vote = Vote.find_by(voteable_id: params[:id], voter_id: current_user.id)
+  end
+
 
   def art_params
     params.require(:art).permit(:author, :born_died, :title, :date, :technique, :location, :url, :form, :style, :school, :timeframe)
