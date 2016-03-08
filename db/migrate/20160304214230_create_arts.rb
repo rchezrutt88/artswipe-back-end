@@ -3,6 +3,7 @@ class CreateArts < ActiveRecord::Migration
     create_table :arts do |t|
       t.string :author
       t.string :born_died
+      t.string :title
       t.string :date
       t.string :technique
       t.string :location

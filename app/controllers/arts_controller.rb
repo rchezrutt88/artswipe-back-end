@@ -1,4 +1,4 @@
-class ArtsController < ApplicationController
+class ArtsController < OpenReadController
   before_action :set_art, only: [:show]
 
   def index
@@ -16,6 +16,19 @@ class ArtsController < ApplicationController
 
     render json: @art
   end
+
+  def up_vote #create
+  end
+
+  def down_vote #create
+  end
+
+  def toggle_vote #update
+  end
+
+  def clear_vote #delete
+  end
+
 
   private
 
