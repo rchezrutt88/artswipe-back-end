@@ -18,7 +18,6 @@
 # end
 
 require 'csv'
-require 'pry'
 
 art_path = 'data/arts.csv'
 user_path = 'data/users.csv'
@@ -57,4 +56,4 @@ end
 
 populate_arts(art_path)
 
-populate_users(user_path)
+# populate_users(user_path)
