@@ -37,8 +37,9 @@ class ArtsController < OpenReadController
   end
 
   def toggle_vote #update
-    toggled = !@vote.vote
-    @vote.vote = toggled
+    patch_vote = cast_bool(params[:patchVote])
+
+    @vote.update(vote: patch_vote)
 
     render json: @vote
   end
@@ -58,6 +59,9 @@ class ArtsController < OpenReadController
     @vote = Vote.find_by(voteable_id: params[:id], voter_id: current_user.id)
   end
 
+  def cast_bool(str)
+    str == 'true'
+  end
 
   def art_params
     params.require(:art).permit(:author, :born_died, :title, :date, :technique, :location, :url, :form, :style, :school, :timeframe)

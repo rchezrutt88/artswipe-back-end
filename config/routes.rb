@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   post '/arts/:id/up-vote', to: 'arts#up_vote'
   post '/arts/:id/down-vote', to: 'arts#down_vote'
   delete 'arts/:id/clear-vote', to: 'arts#clear_vote'
-  patch 'arts/:id/toggle-vote', to: 'arts#toggle-vote'
+  patch 'arts/:id/toggle-vote', to: 'arts#toggle_vote'
   resources :arts, only: [:index, :show]
 
   post '/sign-up' => 'users#signup'
