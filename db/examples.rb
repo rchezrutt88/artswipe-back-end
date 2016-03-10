@@ -36,7 +36,6 @@ def populate_users(path)
   User.transaction do
     CSV.foreach(Rails.root + path, headers: true) do |user_row|
       user = user_row.to_hash
-      # binding.pry
       search_user = user.reject { |k, _v| k == 'password' }
       next if User.exists? search_user
       User.create!(user)
