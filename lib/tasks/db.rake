@@ -14,34 +14,26 @@ namespace :db do
   desc 'Detect gender of art in db'
   task detect_faces: :environment do
     Art.find_each do |art|
-      gender = get_gender(art.id)
-      art.update(gender: gender)
+      response = get_gender(art.id)
+      unless response['imageFaces'].empty?
+        gender = response['imageFaces'][0]['gender']['gender']
+        art.update(gender: gender)
+      end
     end
   end
 
   def get_gender(art_id)
     image_url = path_to_image(Art.find(art_id).url)
     params = {
-      url: image_url,
-      api_secret: 'f2FOY1uWSWL7I-QRO_DhG6AyWZDbUaw8',
-      api_key: '8eed808875b9b78e8d24f5ffbd0005e7',
-      attribute: 'gender,age,race,smiling'
+      'url' => image_url,
+      'apikey' => '3ec507c77642e7554ce53285cb83a6de4050269c',
+      'outputMode' => 'json'
     }
-    api_url = 'https://apius.faceplusplus.com/v2/detection/detect'
+    api_url = 'https://gateway-a.watsonplatform.net/calls/url/URLGetRankedImageFaceTags'
 
-    response = HTTParty.get(api_url + '?' + params.to_query)
+    response = HTTParty.get(api_url, query: params, headers: { 'Accept-encoding' => 'gzip' })
 
-    # puts response.body, response.code, response.message, response.headers.inspect
-
-    response_object = JSON.parse(response.body, symbolize_names: true)
-
-    # pp(response_object[:face][0][:attribute][:gender]) unless response_object[:face].empty?
-
-    unless (response_object[:face].empty?)
-      return response_object[:face][0][:attribute][:gender][:value]
-    else
-      return nil
-    end
+    response.parsed_response
 
   end
 
