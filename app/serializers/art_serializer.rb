@@ -1,5 +1,5 @@
 class ArtSerializer < ActiveModel::Serializer
-  attributes :id, :author, :born_died, :title, :date, :technique, :location, :url, :form, :style, :school, :timeframe
+  attributes :id, :author, :born_died, :title, :date, :technique, :location, :url, :form, :style, :school, :timeframe, :gender
   has_many :votes
   has_one :my_vote
 
