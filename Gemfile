@@ -9,6 +9,7 @@ gem 'pg'
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'thumbs_up'
+gem 'httparty'
 
 group :production do
   gem 'rails_12factor', '~> 0.0.3'
