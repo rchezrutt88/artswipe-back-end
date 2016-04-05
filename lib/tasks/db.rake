@@ -26,12 +26,14 @@ namespace :db do
     image_url = path_to_image(Art.find(art_id).url)
     params = {
       'url' => image_url,
-      'apikey' => '3ec507c77642e7554ce53285cb83a6de4050269c',
+      'apikey' => ENV["ALCHELMY_KEY"],
       'outputMode' => 'json'
     }
     api_url = 'https://gateway-a.watsonplatform.net/calls/url/URLGetRankedImageFaceTags'
 
     response = HTTParty.get(api_url, query: params, headers: { 'Accept-encoding' => 'gzip' })
+
+    puts response.parsed_response
 
     response.parsed_response
 
