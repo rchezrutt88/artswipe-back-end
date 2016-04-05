@@ -13,7 +13,17 @@ class ArtsController < OpenReadController
   end
 
   def random
-    @art = Art.offset(rand(Art.count)).first
+
+    case params[:gender]
+
+    when 'male'
+      @art = Art.male.random
+    when 'female'
+      @art = Art.female.random
+    else
+      @art = Art.random
+    end
+
 
     render json: @art
   end
