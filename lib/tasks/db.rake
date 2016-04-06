@@ -26,7 +26,7 @@ namespace :db do
     image_url = path_to_image(Art.find(art_id).url)
     params = {
       'url' => image_url,
-      'apikey' => ENV["ALCHELMY_KEY"],
+      'apikey' => ENV["ALCHEMY_KEY"],
       'outputMode' => 'json'
     }
     api_url = 'https://gateway-a.watsonplatform.net/calls/url/URLGetRankedImageFaceTags'
