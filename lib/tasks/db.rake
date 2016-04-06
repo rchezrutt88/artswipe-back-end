@@ -11,13 +11,19 @@ namespace :db do
     end
   end
 
-  desc 'Detect gender of art in db'
+  desc 'Detect faces and update arts with face data in db'
   task detect_faces: :environment do
     Art.find_each do |art|
       response = get_gender(art.id)
       unless response['imageFaces'].empty?
-        gender = response['imageFaces'][0]['gender']['gender']
-        art.update(gender: gender)
+        face = response['imageFaces'][0]
+        gender = face['gender']['gender']
+        ageRange = face['age']['ageRange']
+        height = face['height']
+        width = face['width']
+        positionX = face['positionX']
+        positionY = face['positionY']
+        art.update(gender: gender, age_range: ageRange, height: height, width: width, positionX: positionX, positionY: positionY)
       end
     end
   end
