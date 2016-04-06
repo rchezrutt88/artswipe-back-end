@@ -26,7 +26,7 @@ vote_path = 'data/votes.csv'
 
 def populate_arts(path)
   Art.transaction do
-    CSV.foreach(Rails.root + path, encoding: "ISO-8859-1:UTF-8", headers: true, col_sep: ';', header_converters: :downcase) do |art_row|
+    CSV.foreach(Rails.root + path, encoding: "ISO-8859-1:UTF-8", headers: true, header_converters: :downcase) do |art_row|
       art = art_row.to_hash
       Art.find_or_create_by!(art)
     end
