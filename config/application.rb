@@ -16,7 +16,7 @@ require "action_controller/railtie"
 Bundler.require(*Rails.groups)
 
 # Load application ENV vars and merge with existing ENV vars. Loaded here so can use values in initializers.
-ENV.update YAML.load_file('config/secrets.yml')[Rails.env] rescue {}
+ENV.update YAML.load_file('config/devsecrets.yml')[Rails.env] rescue {}
 
 module RailsApiTemplate
   class Application < Rails::Application
