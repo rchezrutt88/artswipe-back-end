@@ -11,7 +11,7 @@ def format_csv(input_file, output_file, num)
   old_csv = CSV.read(input_file, "r:ISO-8859-1", headers: true)
   # puts old_csv
 
-  CSV.open(output_file, 'w:ISO-8859-1', headers: true) do |csv|
+  CSV.open(output_file, 'a+', headers: true) do |csv|
     headers = old_csv.headers
     csv << headers
     random_rows = old_csv.to_a.slice(1..-1).sample(num)
@@ -22,7 +22,7 @@ def format_csv(input_file, output_file, num)
   end
 end
 
-format_csv(catalog, arts_csv, 30)
+format_csv(catalog, arts_csv, 10)
 
 
 
