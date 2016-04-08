@@ -55,6 +55,6 @@ def populate_votes(path)
   end
 end
 
-populate_arts(art_path)
+# populate_arts(art_path)
 
 populate_users(user_path)
