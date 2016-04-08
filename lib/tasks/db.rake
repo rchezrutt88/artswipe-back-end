@@ -44,7 +44,7 @@ namespace :db do
         art['positionX'] = face['positionX']
         art['positionY'] = face['positionY']
         Art.transaction do
-          pp(Art.create(art))
+          puts Art.create(art)
         end
       else
         puts "No face detected in #{art}"
