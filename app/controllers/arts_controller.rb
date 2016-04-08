@@ -2,6 +2,9 @@ class ArtsController < OpenReadController
   before_action :set_art, except: [:index, :random]
   before_action :set_vote, only: [:toggle_vote]
 
+  # TODO Should this fire on votes? On views? Have a new column for viewed_at?
+  # after_action :touch, only: [:random]
+
   def index
     @arts = Art.all
 
@@ -12,6 +15,7 @@ class ArtsController < OpenReadController
     render json: @art
   end
 
+  # FIXME should select randomly from a set of the last touched
   def random
 
     case params[:gender]
@@ -71,6 +75,10 @@ class ArtsController < OpenReadController
 
   def cast_bool(str)
     str == 'true'
+  end
+
+  def touch
+    @art.touch
   end
 
   def art_params
