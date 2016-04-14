@@ -47,7 +47,7 @@ namespace :db do
           pp(Art.create(art))
         end
       else
-        puts "No face detected in #{art}"
+        puts response
       end
     end
   end
