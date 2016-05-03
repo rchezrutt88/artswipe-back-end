@@ -2,11 +2,19 @@ class ArtsController < OpenReadController
   before_action :set_art, except: [:index, :random]
   before_action :set_vote, only: [:toggle_vote]
 
-  # TODO Should this fire on votes? On views? Have a new column for viewed_at?
+  # TODO: Should this fire on votes? On views? Have a new column for viewed_at?
   # after_action :touch, only: [:random]
 
   def index
-    @arts = Art.all
+    case params[:myart]
+
+    when 'liked'
+      @arts = Art.art_i_like(current_user)
+    when 'disliked'
+      @arts = Art.art_i_dislike(current_user)
+    else
+      @arts = Art.all
+    end
 
     render json: @arts
   end
@@ -15,24 +23,22 @@ class ArtsController < OpenReadController
     render json: @art
   end
 
-  # FIXME should select randomly from a set of the last touched
+  # FIXME: should select randomly from a set of the last touched
   def random
+    @art = case params[:gender]
 
-    case params[:gender]
-
-    when 'male'
-      @art = Art.male.random
-    when 'female'
-      @art = Art.female.random
-    else
-      @art = Art.random
-    end
-
+           when 'male'
+             Art.male.random
+           when 'female'
+             Art.female.random
+           else
+             Art.random
+           end
 
     render json: @art
   end
 
-  #create action
+  # create action
   def up_vote
     current_user.vote_for(@art)
 
@@ -41,7 +47,7 @@ class ArtsController < OpenReadController
     render json: @vote
   end
 
-  #create action
+  # create action
   def down_vote
     current_user.vote_against(@art)
 
@@ -50,7 +56,7 @@ class ArtsController < OpenReadController
     render json: @vote
   end
 
-  def toggle_vote #update
+  def toggle_vote # update
     patch_vote = cast_bool(params[:patchVote])
 
     @vote.update(vote: patch_vote)
@@ -58,10 +64,9 @@ class ArtsController < OpenReadController
     render json: @vote
   end
 
-  def clear_vote #delete
+  def clear_vote # delete
     current_user.unvote_for(@art)
   end
-
 
   private
 
@@ -84,5 +89,4 @@ class ArtsController < OpenReadController
   def art_params
     params.require(:art).permit(:author, :born_died, :title, :date, :technique, :location, :url, :form, :style, :school, :timeframe)
   end
-
 end
